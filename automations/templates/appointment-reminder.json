@@ -1,0 +1,87 @@
+{
+  "id": "appointment-reminder",
+  "name": "Appointment Reminder System",
+  "description": "Automated multi-channel reminders that reduce no-shows by 65% with confirmations, reminders, and rescheduling links.",
+  "type": "APPOINTMENT_REMINDER",
+  "trigger": {
+    "type": "schedule",
+    "event": "appointment_created",
+    "schedule": "relative_to_appointment"
+  },
+  "actions": [
+    {
+      "id": "step_1",
+      "name": "Immediate Confirmation",
+      "type": "email",
+      "delay": "0m",
+      "config": {
+        "template": "appointment_confirmation",
+        "subject": "✅ Your call is confirmed for {{appointment.date}}",
+        "include": ["calendar_link", "meeting_url", "reschedule_link"]
+      }
+    },
+    {
+      "id": "step_2",
+      "name": "SMS Confirmation",
+      "type": "sms",
+      "delay": "0m",
+      "config": {
+        "message": "Your call with {{company}} is confirmed for {{date}} at {{time}}. Join: {{meeting_url}}"
+      }
+    },
+    {
+      "id": "step_3",
+      "name": "24h Reminder Email",
+      "type": "email",
+      "delay": "-24h",
+      "config": {
+        "template": "reminder_24h",
+        "subject": "🔔 Reminder: Your call tomorrow at {{time}}"
+      }
+    },
+    {
+      "id": "step_4",
+      "name": "1h Reminder SMS",
+      "type": "sms",
+      "delay": "-1h",
+      "config": {
+        "message": "Your call starts in 1 hour! Join here: {{meeting_url}}"
+      }
+    },
+    {
+      "id": "step_5",
+      "name": "15min Reminder Push",
+      "type": "push_notification",
+      "delay": "-15m",
+      "config": {
+        "title": "Your call starts in 15 minutes!",
+        "body": "Click to join the meeting"
+      }
+    },
+    {
+      "id": "step_6",
+      "name": "Post-Meeting Follow-up",
+      "type": "email",
+      "delay": "+30m",
+      "config": {
+        "template": "post_meeting",
+        "subject": "Great talking with you, {{lead.firstName}}!",
+        "include": ["meeting_notes", "next_steps", "proposal_link"]
+      }
+    }
+  ],
+  "settings": {
+    "rescheduleEnabled": true,
+    "cancelEnabled": true,
+    "maxReschedules": 2,
+    "reminderChannels": ["email", "sms", "push"]
+  },
+  "stats": {
+    "noShowReduction": 65,
+    "confirmationRate": 94,
+    "timeSaved": "3h/day"
+  },
+  "tags": ["appointments", "reminders", "scheduling"],
+  "category": "Scheduling",
+  "difficulty": "beginner"
+}

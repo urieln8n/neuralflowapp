@@ -1,0 +1,72 @@
+{
+  "id": "lead-capture-automation",
+  "name": "Lead Capture Automation",
+  "description": "Automatically captures leads from web forms, qualifies them with AI, and routes to the right sales rep.",
+  "type": "LEAD_CAPTURE",
+  "trigger": {
+    "type": "webhook",
+    "event": "form_submission",
+    "endpoint": "/api/webhooks/lead-capture"
+  },
+  "actions": [
+    {
+      "id": "step_1",
+      "name": "Save Lead to CRM",
+      "type": "database",
+      "config": {
+        "model": "Lead",
+        "operation": "create",
+        "fields": ["name", "email", "company", "phone"]
+      }
+    },
+    {
+      "id": "step_2",
+      "name": "AI Lead Scoring",
+      "type": "ai",
+      "config": {
+        "model": "gpt-4o-mini",
+        "task": "lead_scoring",
+        "fields": ["company", "industry", "employees"]
+      }
+    },
+    {
+      "id": "step_3",
+      "name": "Send Welcome Email",
+      "type": "email",
+      "delay": "0m",
+      "config": {
+        "template": "welcome",
+        "subject": "Welcome to {{company_name}}!",
+        "from": "hello@company.com"
+      }
+    },
+    {
+      "id": "step_4",
+      "name": "Create Follow-up Task",
+      "type": "task",
+      "delay": "30m",
+      "config": {
+        "title": "Follow up with {{lead.name}}",
+        "priority": "high",
+        "assignTo": "auto"
+      }
+    },
+    {
+      "id": "step_5",
+      "name": "Slack Notification",
+      "type": "notification",
+      "config": {
+        "channel": "#new-leads",
+        "message": "🎯 New lead: {{lead.name}} from {{lead.company}}"
+      }
+    }
+  ],
+  "stats": {
+    "avgLeadsPerDay": 15,
+    "conversionRate": 23,
+    "timeSaved": "4h/day"
+  },
+  "tags": ["lead-gen", "sales", "automated"],
+  "category": "Sales",
+  "difficulty": "beginner"
+}

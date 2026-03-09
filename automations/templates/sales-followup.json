@@ -1,0 +1,90 @@
+{
+  "id": "sales-followup-automation",
+  "name": "Sales Follow-up Automation",
+  "description": "Multi-touch sales sequence that nurtures leads with personalized emails and timely follow-ups using AI personalization.",
+  "type": "SALES_FOLLOWUP",
+  "trigger": {
+    "type": "event",
+    "event": "lead_status_change",
+    "condition": "status === 'CONTACTED'"
+  },
+  "actions": [
+    {
+      "id": "step_1",
+      "name": "Send Day 1 Email",
+      "type": "email",
+      "delay": "0h",
+      "config": {
+        "template": "followup_day1",
+        "subject": "Quick question about {{lead.company}}",
+        "personalization": true
+      }
+    },
+    {
+      "id": "step_2",
+      "name": "Check Email Opened",
+      "type": "condition",
+      "delay": "24h",
+      "config": {
+        "check": "email_opened",
+        "truePath": "step_3a",
+        "falsePath": "step_3b"
+      }
+    },
+    {
+      "id": "step_3a",
+      "name": "Send Interested Sequence",
+      "type": "email",
+      "config": {
+        "template": "demo_offer",
+        "subject": "See how {{automation_type}} can save you 10h/week"
+      }
+    },
+    {
+      "id": "step_3b",
+      "name": "Send Re-engagement",
+      "type": "email",
+      "config": {
+        "template": "reengagement",
+        "subject": "Still struggling with {{pain_point}}?"
+      }
+    },
+    {
+      "id": "step_4",
+      "name": "LinkedIn Connection Request",
+      "type": "social",
+      "delay": "48h",
+      "config": {
+        "platform": "linkedin",
+        "action": "connect",
+        "message": "Hi {{lead.name}}, saw you're working on automation at {{lead.company}}..."
+      }
+    },
+    {
+      "id": "step_5",
+      "name": "Final Call Attempt",
+      "type": "task",
+      "delay": "72h",
+      "config": {
+        "title": "Final call attempt: {{lead.name}}",
+        "type": "call",
+        "script": "followup_call_script"
+      }
+    }
+  ],
+  "settings": {
+    "stopOnReply": true,
+    "stopOnMeeting": true,
+    "maxTouches": 6,
+    "timezone": "lead_timezone"
+  },
+  "stats": {
+    "openRate": 48,
+    "replyRate": 12,
+    "meetingRate": 8,
+    "timeSaved": "6h/day"
+  },
+  "tags": ["sales", "email-sequence", "nurture"],
+  "category": "Sales",
+  "difficulty": "intermediate"
+}

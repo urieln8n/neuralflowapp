@@ -1,0 +1,63 @@
+{
+  "id": "customer-support-bot",
+  "name": "Customer Support Bot",
+  "description": "AI-powered support bot that handles 80% of customer queries automatically, escalates complex issues to humans.",
+  "type": "CUSTOMER_SUPPORT",
+  "trigger": {
+    "type": "widget",
+    "placement": "all_pages",
+    "showAfter": "5s"
+  },
+  "botConfig": {
+    "personality": "professional, helpful, empathetic",
+    "language": "auto-detect",
+    "greeting": "Hi! I'm your AI assistant. How can I help you today?",
+    "escalationTriggers": ["angry", "refund", "legal", "complaint"],
+    "knowledgeBase": "company_docs",
+    "fallback": "I'll connect you with a specialist right away."
+  },
+  "flows": [
+    {
+      "id": "main_menu",
+      "name": "Main Menu",
+      "options": [
+        "Product questions",
+        "Billing & account",
+        "Technical support",
+        "Talk to a human"
+      ]
+    },
+    {
+      "id": "product_questions",
+      "name": "Product Questions",
+      "handler": "ai_knowledge_base",
+      "fallback": "human_handoff"
+    },
+    {
+      "id": "billing",
+      "name": "Billing & Account",
+      "handler": "billing_api",
+      "actions": ["check_invoice", "update_payment", "cancel_subscription"]
+    },
+    {
+      "id": "technical",
+      "name": "Technical Support",
+      "handler": "ai_troubleshooter",
+      "escalate_after": 3
+    }
+  ],
+  "integrations": {
+    "crm": "sync_conversation",
+    "ticketing": "create_ticket",
+    "email": "send_transcript"
+  },
+  "stats": {
+    "resolutionRate": 78,
+    "avgResponseTime": "< 2s",
+    "satisfactionScore": 4.6,
+    "ticketsDeflected": "78%"
+  },
+  "tags": ["support", "bot", "ai", "24/7"],
+  "category": "Support",
+  "difficulty": "intermediate"
+}

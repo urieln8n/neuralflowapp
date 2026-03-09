@@ -1,0 +1,118 @@
+{
+  "id": "client-onboarding",
+  "name": "Client Onboarding Automation",
+  "description": "Complete automated onboarding journey that gets new clients up and running in days, not weeks.",
+  "type": "CLIENT_ONBOARDING",
+  "trigger": {
+    "type": "event",
+    "event": "lead_status_change",
+    "condition": "status === 'CLIENT'"
+  },
+  "actions": [
+    {
+      "id": "step_1",
+      "name": "Welcome Package Email",
+      "type": "email",
+      "delay": "0m",
+      "config": {
+        "template": "client_welcome",
+        "subject": "🎉 Welcome to the family, {{client.company}}!",
+        "attachments": ["welcome_guide.pdf", "quick_start.pdf"]
+      }
+    },
+    {
+      "id": "step_2",
+      "name": "Create Client Workspace",
+      "type": "api",
+      "delay": "0m",
+      "config": {
+        "endpoint": "/api/workspaces",
+        "method": "POST",
+        "data": {
+          "name": "{{client.company}}",
+          "plan": "{{client.plan}}",
+          "admin": "{{client.email}}"
+        }
+      }
+    },
+    {
+      "id": "step_3",
+      "name": "Schedule Kickoff Call",
+      "type": "calendar",
+      "delay": "30m",
+      "config": {
+        "type": "kickoff",
+        "duration": "60min",
+        "title": "{{client.company}} Kickoff Call",
+        "invite": ["client", "account_manager", "technical_lead"]
+      }
+    },
+    {
+      "id": "step_4",
+      "name": "Day 1 - Getting Started",
+      "type": "email",
+      "delay": "24h",
+      "config": {
+        "template": "onboarding_day1",
+        "subject": "Day 1: Let's set up your first automation"
+      }
+    },
+    {
+      "id": "step_5",
+      "name": "Day 3 - First Win Check",
+      "type": "email",
+      "delay": "72h",
+      "config": {
+        "template": "first_win_check",
+        "subject": "Have you tried your first automation yet?"
+      }
+    },
+    {
+      "id": "step_6",
+      "name": "Week 1 Check-in",
+      "type": "task",
+      "delay": "168h",
+      "config": {
+        "title": "Week 1 check-in call: {{client.company}}",
+        "type": "call",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "step_7",
+      "name": "Assign Success Automations",
+      "type": "automation",
+      "delay": "0m",
+      "config": {
+        "assign": ["lead-capture-automation", "sales-followup-automation"],
+        "configure": true
+      }
+    },
+    {
+      "id": "step_8",
+      "name": "30-Day Review",
+      "type": "email",
+      "delay": "720h",
+      "config": {
+        "template": "30day_review",
+        "subject": "30 days in — here's your ROI report 📊",
+        "include": ["usage_stats", "time_saved", "leads_captured"]
+      }
+    }
+  ],
+  "milestones": [
+    { "day": 1, "goal": "First login and setup" },
+    { "day": 3, "goal": "First automation running" },
+    { "day": 7, "goal": "First automated lead captured" },
+    { "day": 30, "goal": "Full ROI visible" }
+  ],
+  "stats": {
+    "avgOnboardingTime": "3 days",
+    "activationRate": 89,
+    "churnReduction": 40,
+    "timeSaved": "8h/client"
+  },
+  "tags": ["onboarding", "retention", "automation"],
+  "category": "Customer Success",
+  "difficulty": "advanced"
+}
