@@ -3,16 +3,20 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 
 const links = [
   { name: "Home", href: "/" },
   { name: "Automations", href: "/automations" },
   { name: "Dashboard", href: "/dashboard" },
+  { name: "CRM", href: "/dashboard/leads" }, // BOTÓN CRM AÑADIDO
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
 ]
 
 export default function Navbar() {
+
+  const pathname = usePathname()
 
   const [scrolled, setScrolled] = useState(false)
 
@@ -71,29 +75,39 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-10">
 
-          {links.map((link, i) => (
+          {links.map((link, i) => {
 
-            <Link key={i} href={link.href}>
+            const isActive = pathname === link.href
 
-              <motion.span
+            return (
 
-                whileHover={{ y: -2 }}
+              <Link key={i} href={link.href}>
 
-                className="relative text-gray-300 hover:text-white transition cursor-pointer"
+                <motion.span
 
-              >
+                  whileHover={{ y: -2 }}
 
-                {link.name}
+                  className={`relative transition cursor-pointer
+                  ${isActive ? "text-cyan-400 font-semibold" : "text-gray-300 hover:text-white"}
+                  `}
 
-                <span className="absolute left-0 -bottom-2 w-0 h-[2px]
-                bg-gradient-to-r from-cyan-400 to-blue-400
-                transition-all duration-300 hover:w-full"></span>
+                >
 
-              </motion.span>
+                  {link.name}
 
-            </Link>
+                  <span className={`absolute left-0 -bottom-2 h-[2px]
+                  bg-gradient-to-r from-cyan-400 to-blue-400
+                  transition-all duration-300
+                  ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                  `}></span>
 
-          ))}
+                </motion.span>
+
+              </Link>
+
+            )
+
+          })}
 
         </div>
 
