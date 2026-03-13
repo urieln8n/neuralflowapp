@@ -1,6 +1,7 @@
 "use client"
 
 import { useState,useEffect } from "react"
+import HotLeadEmailGenerator from "@/components/ui/HotLeadEmailGenerator"
 
 type Lead = {
 id:number
