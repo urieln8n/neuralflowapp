@@ -4,89 +4,63 @@ import { motion } from "framer-motion"
 
 export default function ContactPage() {
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      backgroundColor: "#030303", 
-      color: "#fff", 
-      padding: "100px 20px",
-      fontFamily: "sans-serif",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center"
-    }}>
+    <section className="min-h-screen bg-black text-white py-32 px-6 flex flex-col items-center">
+
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        style={{
-          width: "100%",
-          maxWidth: "600px",
-          background: "rgba(255, 255, 255, 0.02)",
-          backdropFilter: "blur(15px)",
-          border: "1px solid rgba(0, 212, 255, 0.2)",
-          padding: "50px",
-          borderRadius: "30px",
-          boxShadow: "0 20px 50px rgba(0,0,0,0.5)"
-        }}
+        transition={{ duration: 0.7 }}
+        className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-cyan-400/20 rounded-3xl p-12 shadow-2xl flex flex-col gap-8"
       >
-        <h1 style={{ fontSize: "36px", fontWeight: "800", marginBottom: "10px", textAlign: "center" }}>
-          ¿Listo para <span style={{ color: "#00d4ff" }}>NeuralFlow</span>?
+
+        <h1 className="text-4xl font-extrabold text-center">
+          ¿Listo para <span className="text-cyan-400">NeuralFlow</span>?
         </h1>
-        <p style={{ color: "#666", textAlign: "center", marginBottom: "40px" }}>
+
+        <p className="text-gray-400 text-center">
           Déjanos un mensaje y nuestro equipo de IA se pondrá en contacto contigo.
         </p>
 
-        <form style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-          <div style={inputContainer}>
-            <label style={labelStyle}>Nombre</label>
-            <input type="text" placeholder="Tu nombre" style={inputStyle} />
-          </div>
+        <form className="flex flex-col gap-6">
 
-          <div style={inputContainer}>
-            <label style={labelStyle}>Email</label>
-            <input type="email" placeholder="nombre@empresa.com" style={inputStyle} />
-          </div>
-
-          <div style={inputContainer}>
-            <label style={labelStyle}>Mensaje</label>
-            <textarea placeholder="¿En qué podemos ayudarte?" style={{ ...inputStyle, minHeight: "120px", resize: "none" }} />
-          </div>
+          <InputField label="Nombre" placeholder="Tu nombre" type="text" />
+          <InputField label="Email" placeholder="nombre@empresa.com" type="email" />
+          <InputField label="Mensaje" placeholder="¿En qué podemos ayudarte?" type="textarea" />
 
           <motion.button 
-            whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(0, 212, 255, 0.4)" }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              marginTop: "10px",
-              padding: "16px",
-              borderRadius: "15px",
-              border: "none",
-              background: "linear-gradient(90deg, #00d4ff 0%, #0055ff 100%)",
-              color: "#000",
-              fontWeight: "bold",
-              fontSize: "16px",
-              cursor: "pointer"
-            }}
+            whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(0, 212, 255, 0.5)" }}
+            whileTap={{ scale: 0.97 }}
+            className="mt-4 py-4 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-600 font-bold text-black transition-all text-lg"
           >
             Enviar Mensaje
           </motion.button>
+
         </form>
       </motion.div>
 
-      <div style={{ marginTop: "40px", color: "#444", fontSize: "14px" }}>
+      <p className="mt-10 text-gray-600 text-sm">
         Ecosistema NeuralFlow • Soporte Prioritario
-      </div>
-    </div>
+      </p>
+    </section>
   )
 }
 
-// Estilos Reutilizables
-const inputContainer = { display: "flex", flexDirection: "column" as const, gap: "8px" };
-const labelStyle = { fontSize: "12px", color: "#00d4ff", fontWeight: "bold", textTransform: "uppercase" as const, letterSpacing: "1px" };
-const inputStyle = {
-  padding: "14px",
-  backgroundColor: "rgba(255,255,255,0.03)",
-  border: "1px solid rgba(255,255,255,0.1)",
-  borderRadius: "12px",
-  color: "#fff",
-  outline: "none",
-  transition: "0.3s"
-};
+function InputField({ label, placeholder, type }: { label: string, placeholder: string, type: string }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{label}</label>
+      {type === "textarea" ? (
+        <textarea 
+          placeholder={placeholder}
+          className="p-4 bg-white/5 border border-white/10 rounded-xl text-white outline-none placeholder-gray-500 focus:border-cyan-400 focus:bg-white/10 transition-all min-h-[120px] resize-none"
+        />
+      ) : (
+        <input 
+          type={type}
+          placeholder={placeholder}
+          className="p-4 bg-white/5 border border-white/10 rounded-xl text-white outline-none placeholder-gray-500 focus:border-cyan-400 focus:bg-white/10 transition-all"
+        />
+      )}
+    </div>
+  )
+}

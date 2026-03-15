@@ -106,7 +106,7 @@ return(
 
 <button
 onClick={()=>setOpen(!open)}
-className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-xl hover:scale-110 transition z-50"
+className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-linear-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-xl hover:scale-110 transition z-50"
 >
 {open ? <X size={26}/> : <MessageCircle size={26}/>}
 </button>
@@ -115,7 +115,7 @@ className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-p
 
 <div className="fixed bottom-24 right-6 w-[380px] h-[580px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 z-50">
 
-<div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4">
+<div className="bg-linear-to-r from-purple-600 to-indigo-600 text-white p-4">
 
 <h3 className="font-semibold text-sm">
 Asistente de ventas IA
@@ -143,7 +143,7 @@ msg.role==="user"
 <div
 className={`px-4 py-2 rounded-xl text-sm max-w-[80%] ${
 msg.role==="user"
-? "bg-indigo-600 text-white"
+? "bg-indigo-600 text-gray"
 : "bg-white text-gray-800 border"
 }`}
 >

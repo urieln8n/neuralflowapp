@@ -3,169 +3,126 @@
 import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 
-const plans = [
-  {
-    name: "Starter",
-    price: "$19",
-    description: "Perfect for small teams starting with AI automation.",
-    features: [
-      "5 AI Automations",
-      "Basic AI Agents",
-      "API Integrations",
-      "Email Support",
-    ],
-    highlight: false,
-  },
-  {
-    name: "Pro",
-    price: "$49",
-    description: "Advanced AI workflows for growing companies.",
-    features: [
-      "Unlimited Automations",
-      "Advanced AI Agents",
-      "Priority Processing",
-      "Advanced Analytics",
-      "Priority Support",
-    ],
-    highlight: true,
-  },
-  {
-    name: "Enterprise",
-    price: "$99",
-    description: "Full AI automation infrastructure for enterprises.",
-    features: [
-      "Unlimited AI Agents",
-      "Custom AI Models",
-      "Dedicated Infrastructure",
-      "Security & Compliance",
-      "24/7 Premium Support",
-    ],
-    highlight: false,
-  },
+export default function Pricing(){
+
+const features = [
+"Landing page profesional optimizada",
+"Chat AI para responder visitantes",
+"Asistente automático en WhatsApp",
+"CRM básico para gestionar leads",
+"Automatización de respuestas",
+"Sistema listo para captar clientes"
 ]
 
-export default function Pricing() {
-  return (
-    <section className="relative py-32 bg-black text-white overflow-hidden">
+return(
 
-      {/* glow background */}
+<section className="relative bg-[#0b0b0f] text-white py-32 px-6 overflow-hidden">
 
-      <div className="absolute left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-purple-600/10 blur-[160px] rounded-full"></div>
+{/* glow background */}
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-600/20 blur-[200px] pointer-events-none"/>
 
-        {/* title */}
+<div className="max-w-6xl mx-auto relative text-center">
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="text-center mb-24"
-        >
+{/* HEADER */}
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+<h2 className="text-5xl font-bold mb-6">
 
-            Simple Pricing
+Lanza tu sistema de  
+<span className="bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text ml-2">
+captación con IA
+</span>
 
-          </h2>
+</h2>
 
-          <p className="text-gray-400 max-w-xl mx-auto">
+<p className="text-gray-400 text-lg mb-20 max-w-2xl mx-auto">
 
-            Powerful AI tools to grow your business with intelligent automation.
+Todo lo que necesitas para empezar a captar clientes automáticamente desde tu web.
 
-          </p>
+</p>
 
-        </motion.div>
 
-        {/* cards */}
+{/* PRICING CARD */}
 
-        <div className="grid md:grid-cols-3 gap-10">
+<motion.div
+initial={{opacity:0,y:40}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+whileHover={{scale:1.03}}
+className="relative max-w-xl mx-auto bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-12 hover:border-purple-400/40 transition"
+>
 
-          {plans.map((plan, i) => (
+{/* badge */}
 
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2 }}
-              viewport={{ once: true }}
+<div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-cyan-400 px-4 py-1 text-sm font-semibold rounded-full">
 
-              whileHover={{
-                y: -12,
-                scale: 1.03,
-              }}
+Plan MVP
 
-              className={`relative rounded-2xl border backdrop-blur-xl p-10 transition-all duration-300
-              ${plan.highlight
-                ? "border-cyan-400 bg-white/10 shadow-[0_0_40px_rgba(34,211,238,0.2)]"
-                : "border-white/10 bg-white/5"
-              }`}
-            >
+</div>
 
-              {/* recommended badge */}
+{/* title */}
 
-              {plan.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-xs px-4 py-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500">
-                  Most Popular
-                </div>
-              )}
+<h3 className="text-2xl font-bold mb-4">
 
-              <h3 className="text-xl font-semibold mb-2">
+NeuralFlow MVP
 
-                {plan.name}
+</h3>
 
-              </h3>
+<p className="text-gray-400 mb-10">
 
-              <p className="text-gray-400 text-sm mb-6">
+Sistema completo para lanzar tu web con IA y empezar a captar clientes.
 
-                {plan.description}
+</p>
 
-              </p>
 
-              <div className="text-4xl font-bold mb-8">
+{/* price */}
 
-                {plan.price}
-                <span className="text-gray-400 text-sm"> / month</span>
+<div className="text-5xl font-bold mb-10">
 
-              </div>
+Lanzamiento
 
-              <ul className="space-y-4 mb-10">
+</div>
 
-                {plan.features.map((feature, idx) => (
 
-                  <li key={idx} className="flex items-center gap-3 text-gray-300">
+{/* features */}
 
-                    <Check className="text-cyan-400" size={18} />
+<div className="text-left space-y-4 mb-12">
 
-                    {feature}
+{features.map((feature,i)=>(
 
-                  </li>
+<div key={i} className="flex items-center gap-3 text-gray-300">
 
-                ))}
+<Check className="text-cyan-400" size={18}/>
 
-              </ul>
+<span>{feature}</span>
 
-              <button
-                className={`w-full py-3 rounded-xl font-semibold transition
-                ${plan.highlight
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105"
-                  : "border border-white/20 hover:border-cyan-400"
-                }`}
-              >
+</div>
 
-                Get Started
+))}
 
-              </button>
+</div>
 
-            </motion.div>
 
-          ))}
+{/* CTA */}
 
-        </div>
+<button className="w-full bg-gradient-to-r from-purple-500 to-cyan-400 hover:opacity-90 transition p-4 rounded-xl font-semibold text-lg">
 
-      </div>
+Crear mi MVP
 
-    </section>
-  )
+</button>
+
+<p className="text-gray-500 text-sm mt-4">
+
+Configuración rápida para empezar cuanto antes.
+
+</p>
+
+</motion.div>
+
+</div>
+
+</section>
+
+)
+
 }

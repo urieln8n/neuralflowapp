@@ -48,7 +48,7 @@ export default function Navbar() {
 
     >
 
-      <div className="max-w-7xl mx-auto px-6 h-[80px] flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 h-80px] flex items-center justify-between">
 
         {/* LOGO */}
 
@@ -59,7 +59,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
 
             className="text-2xl font-bold tracking-tight cursor-pointer
-            bg-gradient-to-r from-purple-400 via-cyan-400 to-blue-400
+            bg-linear-to-r from-purple-400 via-cyan-400 to-blue-400
             bg-clip-text text-transparent"
 
           >

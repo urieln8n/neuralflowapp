@@ -58,7 +58,7 @@ export default function PricingPage() {
         >
 
           <h1 className="text-5xl font-bold mb-6
-          bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400
+          bg-linear-to-r from-cyan-400 via-blue-400 to-purple-400
           bg-clip-text text-transparent">
 
             Simple Pricing

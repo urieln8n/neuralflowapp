@@ -1,142 +1,131 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { ShieldCheck, CalendarCheck, Sparkles } from "lucide-react"
 
-const lines = [
-  "> Initializing AI workflow...",
-  "> Connecting data sources...",
-  "> Analyzing customer behavior...",
-  "> Generating automation pipeline...",
-  "> Deploying AI agents...",
-  "> System running successfully.",
+const automations = [
+{
+title:"Protocolo Centinela",
+desc:"Detecta leads de alta intención y descarta curiosos automáticamente.",
+icon:ShieldCheck
+},
+{
+title:"Nexo de Conversión",
+desc:"Cierra citas directamente en tu calendario analizando la urgencia del cliente.",
+icon:CalendarCheck
+},
+{
+title:"Pulso Viral",
+desc:"Redacta respuestas personalizadas basadas en el sentimiento del usuario.",
+icon:Sparkles
+}
 ]
 
-export default function AISection() {
-  const [text, setText] = useState<string[]>([])
+export default function AISection(){
 
-  useEffect(() => {
-    let i = 0
+return(
 
-    const interval = setInterval(() => {
-      setText((prev) => [...prev, lines[i]])
-      i++
+<section className="relative bg-[#0b0b0f] text-white py-32 px-6 overflow-hidden">
 
-      if (i === lines.length) {
-        clearInterval(interval)
-      }
-    }, 900)
+{/* glow background */}
 
-    return () => clearInterval(interval)
-  }, [])
+<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-600/20 blur-[220px] pointer-events-none"/>
 
-  return (
-    <section className="relative py-32 bg-black text-white overflow-hidden">
+<div className="max-w-7xl mx-auto text-center relative">
 
-      {/* glow background */}
+{/* HEADER */}
 
-      <div className="absolute left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-cyan-500/10 blur-[160px] rounded-full"></div>
+<motion.h2
+className="text-5xl font-bold mb-6"
+initial={{opacity:0,y:20}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+>
+Automatizaciones  
+<span className="bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text ml-2">
+IA
+</span>
+</motion.h2>
 
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
+<motion.p
+className="text-gray-400 mb-20 max-w-2xl mx-auto text-lg"
+initial={{opacity:0}}
+whileInView={{opacity:1}}
+viewport={{once:true}}
+transition={{delay:0.1}}
+>
+Nuestro sistema inteligente gestiona automáticamente tus leads, agendas y comunicaciones para que puedas enfocarte en crecer.
+</motion.p>
 
-        {/* text */}
 
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
+{/* GRID */}
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+<div className="grid gap-10 md:grid-cols-3">
 
-            Your AI Workforce  
-            <span className="block bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+{automations.map((item,i)=>{
 
-              Running Automatically
+const Icon = item.icon
 
-            </span>
+return(
 
-          </h2>
+<motion.div
+key={item.title}
+initial={{opacity:0,y:40}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+transition={{delay:i*0.15}}
+whileHover={{scale:1.05}}
+className="relative bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-10 hover:border-cyan-400/40 transition"
+>
 
-          <p className="text-gray-400 mb-8 max-w-lg">
-            NeuralFlow deploys intelligent AI agents that automate workflows,
-            interact with systems, and make decisions in real time.
-          </p>
+{/* glow */}
 
-          <div className="flex gap-4">
+<div className="absolute -top-20 -right-20 w-[200px] h-[200px] bg-gradient-to-r from-purple-500/20 to-cyan-400/20 blur-[120px]" />
 
-            <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 font-semibold hover:scale-105 transition">
-              Launch AI
-            </button>
+{/* icon */}
 
-            <button className="px-6 py-3 rounded-xl border border-white/20 hover:border-cyan-400 transition">
-              Explore Plans
-            </button>
+<div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-500/20 to-cyan-400/20 text-cyan-400 mb-6">
 
-          </div>
+<Icon size={26}/>
 
-        </motion.div>
+</div>
 
-        {/* terminal */}
+{/* title */}
 
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
+<h3 className="text-2xl font-semibold mb-3">
 
-          {/* glass terminal */}
+{item.title}
 
-          <div className="bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 font-mono text-sm shadow-2xl">
+</h3>
 
-            {/* mac buttons */}
+{/* desc */}
 
-            <div className="flex gap-2 mb-4">
+<p className="text-gray-400 leading-relaxed mb-6">
 
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+{item.desc}
 
-            </div>
+</p>
 
-            {/* lines */}
+{/* CTA */}
 
-            <div className="space-y-2 text-green-400">
+<button className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-400 font-semibold hover:opacity-90 transition">
 
-              {text.map((line, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {line}
-                </motion.div>
-              ))}
+Ver automatización
 
-              {/* cursor */}
+</button>
 
-              <motion.span
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{ repeat: Infinity, duration: 1 }}
-              >
-                ▋
-              </motion.span>
+</motion.div>
 
-            </div>
+)
 
-          </div>
+})}
 
-          {/* glow */}
+</div>
 
-          <div className="absolute inset-0 bg-green-500/10 blur-2xl rounded-2xl -z-10"></div>
+</div>
 
-        </motion.div>
+</section>
 
-      </div>
+)
 
-    </section>
-  )
 }

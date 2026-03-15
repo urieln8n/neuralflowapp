@@ -1,26 +1,44 @@
 [
   {
-    "email": null,
-    "phone": "645476345",
-    "message": "andres 645476345",
-    "date": "2026-03-09T09:36:32.141Z"
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "email": "juan@empresa.com",
+    "empresa": "Empresa A",
+    "mensaje": "Interesado en NeuralFlow",
+    "score": 85,
+    "estado": "caliente"
+  },
+  {
+    "id": 2,
+    "nombre": "Ana Gómez",
+    "email": "ana@empresa.com",
+    "empresa": "Empresa B",
+    "mensaje": "Quiero una demo",
+    "score": 70,
+    "estado": "templado"
   },
   {
     "email": null,
-    "phone": "654321875",
-    "message": "keuri bhjgr@ngrr 654321875",
-    "date": "2026-03-09T13:53:36.981Z"
+    "phone": "346346547",
+    "message": "hola andres faj@hjndvbcñkjb 346346547",
+    "date": "2026-03-14T14:45:07.581Z"
   },
   {
-    "email": "fa.andres18@hotmail.com",
-    "phone": "645466308",
-    "message": "andres fa.andres18@hotmail.com 645466308",
-    "date": "2026-03-10T14:31:11.292Z"
+    "email": null,
+    "phone": "64536609838",
+    "message": "hola soy andres 64536609838 hadbcvjlasd",
+    "date": "2026-03-15T08:43:06.655Z"
   },
   {
-    "email": "fa.andres18@hotmail.com",
-    "phone": "645466308",
-    "message": "hola soy andres fa.andres18@hotmail.com 645466308",
-    "date": "2026-03-10T14:33:44.643Z"
+    "email": null,
+    "phone": "4387436",
+    "message": "uriel 783t4387436",
+    "date": "2026-03-15T09:52:36.094Z"
+  },
+  {
+    "email": null,
+    "phone": "645456787",
+    "message": "hola andres 645456787 quiero una web con chaa rapido ",
+    "date": "2026-03-15T16:13:06.082Z"
   }
 ]

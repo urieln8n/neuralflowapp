@@ -1,53 +1,76 @@
-import { prisma } from "../../../../../packages/database/client";
+"use client"
+
+import { prisma } from "../../../../../packages/database/client"
+import { motion } from "framer-motion"
+
+type Lead = {
+  id: string
+  nombre: string
+  telefono?: string
+  "correo electrónico"?: string
+  mensaje?: string
+  fuente?: string
+  "creado en": string
+}
 
 export default async function LeadsPage() {
-  // Obtenemos los datos de la tabla 'plomo'
-  const leads = await (prisma as any).plomo.findMany({
-    orderBy: {
-      "creado en": "desc",
-    },
-  });
+  const leads: Lead[] = await prisma.plomo.findMany({
+    orderBy: { "creado en": "desc" },
+  })
 
   return (
-    <div style={{ padding: "40px", backgroundColor: "#000", minHeight: "100vh", color: "#fff", fontFamily: "sans-serif" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-        <header style={{ marginBottom: "30px", borderBottom: "1px solid #333", paddingBottom: "20px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: "bold" }}>CRM de Leads</h1>
-          <p style={{ color: "#888" }}>Clientes capturados automáticamente por el chatbot IA</p>
+    <div className="min-h-screen bg-black text-white px-8 py-20 font-sans">
+      <div className="max-w-6xl mx-auto relative">
+
+        {/* Header */}
+        <header className="mb-12 border-b border-gray-800 pb-6">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-2">CRM de Leads</h1>
+          <p className="text-gray-400">Clientes capturados automáticamente por el chatbot IA</p>
         </header>
 
-        <div style={{ display: "grid", gap: "15px" }}>
+        {/* Leads Grid */}
+        <div className="grid gap-8">
           {leads.length === 0 ? (
-            <div style={{ padding: "40px", textAlign: "center", border: "1px dashed #444", borderRadius: "12px" }}>
-              <p style={{ color: "#666" }}>Esperando el primer lead desde el chat...</p>
+            <div className="py-20 text-center border-2 border-dashed border-gray-700 rounded-xl">
+              <p className="text-gray-500">Esperando el primer lead desde el chat...</p>
             </div>
           ) : (
-            leads.map((item: any) => (
-              <div key={item.id} style={{ border: "1px solid #222", padding: "24px", borderRadius: "12px", backgroundColor: "#0a0a0a", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <strong style={{ color: "#00d4ff", fontSize: "20px" }}>{item.nombre}</strong>
-                  <span style={{ fontSize: "12px", backgroundColor: "#1a1a1a", color: "#00d4ff", padding: "4px 10px", borderRadius: "20px", border: "1px solid #00d4ff33" }}>
-                    {item.fuente || "Chat"}
+            leads.map((lead, i) => (
+              <motion.div
+                key={lead.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="p-6 md:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:scale-[1.02] transition-transform duration-300"
+              >
+                {/* Nombre y Fuente */}
+                <div className="flex justify-between items-center mb-4">
+                  <strong className="text-cyan-400 text-xl md:text-2xl">{lead.nombre}</strong>
+                  <span className="text-xs md:text-sm px-3 py-1 rounded-full border border-cyan-400/30 text-cyan-400 bg-gray-900/20">
+                    {lead.fuente || "Chat"}
                   </span>
                 </div>
-                
-                <div style={{ display: "flex", gap: "20px", color: "#ccc", fontSize: "14px" }}>
-                  <span>📧 {item["correo electrónico"] || "Sin email"}</span>
-                  {item.telefono && <span>📞 {item.telefono}</span>}
+
+                {/* Contacto */}
+                <div className="flex flex-wrap gap-6 text-gray-400 text-sm mb-4">
+                  <span>📧 {lead["correo electrónico"] || "Sin email"}</span>
+                  {lead.telefono && <span>📞 {lead.telefono}</span>}
                 </div>
 
-                <div style={{ marginTop: "10px", padding: "12px", backgroundColor: "#111", borderRadius: "8px", borderLeft: "4px solid #00d4ff", color: "#eee" }}>
-                  {item.mensaje || "Sin mensaje adicional."}
+                {/* Mensaje */}
+                <div className="p-4 bg-gray-900 rounded-lg border-l-4 border-cyan-400 text-gray-200 mb-2">
+                  {lead.mensaje || "Sin mensaje adicional."}
                 </div>
 
-                <div style={{ marginTop: "5px", fontSize: "12px", color: "#555", textAlign: "right" }}>
-                  📅 {new Date(item["creado en"]).toLocaleString()}
+                {/* Fecha */}
+                <div className="text-gray-500 text-xs text-right">
+                  📅 {new Date(lead["creado en"]).toLocaleString()}
                 </div>
-              </div>
+              </motion.div>
             ))
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }

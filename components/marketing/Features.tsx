@@ -1,125 +1,145 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Bot, Zap, Brain } from "lucide-react"
+import {
+Globe,
+Bot,
+MessageSquare,
+Database,
+Zap,
+Rocket
+} from "lucide-react"
+
+export default function Features(){
 
 const features = [
-  {
-    icon: Bot,
-    title: "AI Agents",
-    description:
-      "Deploy intelligent AI agents that automate business processes, answer questions, and assist your team 24/7.",
-  },
-  {
-    icon: Zap,
-    title: "Workflow Automation",
-    description:
-      "Connect APIs, tools, and services to automate repetitive tasks and optimize your operational efficiency.",
-  },
-  {
-    icon: Brain,
-    title: "Local AI Models",
-    description:
-      "Run powerful AI models locally with Ollama for secure, private, and high-performance AI interactions.",
-  },
+
+{
+title:"Landing Page Inteligente",
+icon:Globe,
+desc:"Creamos una landing moderna optimizada para captar clientes y explicar tu negocio de forma clara."
+},
+
+{
+title:"Chat AI Integrado",
+icon:Bot,
+desc:"Un asistente inteligente conversa con los visitantes y responde preguntas automáticamente."
+},
+
+{
+title:"Automatización en WhatsApp",
+icon:MessageSquare,
+desc:"Los clientes continúan la conversación en WhatsApp con un asistente automatizado."
+},
+
+{
+title:"CRM de Leads",
+icon:Database,
+desc:"Todos los contactos se guardan automáticamente para que puedas gestionarlos fácilmente."
+},
+
+{
+title:"Automatizaciones Inteligentes",
+icon:Zap,
+desc:"El sistema captura leads, responde preguntas y filtra clientes potenciales automáticamente."
+},
+
+{
+title:"Listo para lanzar",
+icon:Rocket,
+desc:"Tu sistema de captación queda listo para empezar a recibir clientes desde el primer día."
+}
+
 ]
 
-export default function Features() {
-  return (
-    <section className="relative py-32 bg-black text-white overflow-hidden">
+return(
 
-      {/* glow background */}
+<section className="relative bg-[#0b0b0f] text-white py-32 px-6 overflow-hidden">
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/20 blur-[160px] rounded-full"></div>
+{/* glow background */}
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-600/20 blur-[200px] pointer-events-none"/>
 
-        {/* title */}
+<div className="max-w-7xl mx-auto relative">
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
+{/* HEADER */}
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+<div className="text-center mb-24">
 
-            Powerful AI Automation
+<h2 className="text-5xl font-bold mb-6">
 
-          </h2>
+Todo lo que necesitas para  
+<span className="bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text ml-2">
+captar clientes
+</span>
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            NeuralFlow helps teams automate workflows, integrate AI agents,
-            and scale operations with intelligent automation.
-          </p>
+</h2>
 
-        </motion.div>
+<p className="text-gray-400 text-lg max-w-2xl mx-auto">
 
-        {/* cards */}
+NeuralFlow combina web, inteligencia artificial y automatización para convertir visitantes en clientes de forma automática.
 
-        <div className="grid md:grid-cols-3 gap-8">
+</p>
 
-          {features.map((feature, i) => {
-            const Icon = feature.icon
+</div>
 
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.2 }}
-                viewport={{ once: true }}
 
-                whileHover={{
-                  y: -10,
-                  scale: 1.02,
-                }}
+{/* GRID */}
 
-                className="relative group rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 transition-all duration-300"
-              >
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                {/* hover glow */}
+{features.map((feature,i)=>{
 
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-purple-600/20 to-cyan-500/20 blur-xl"></div>
+const Icon = feature.icon
 
-                <div className="relative z-10">
+return(
 
-                  {/* icon */}
+<motion.div
+key={i}
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+transition={{delay:i*0.1}}
+whileHover={{scale:1.04}}
+className="relative bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-8 hover:border-cyan-400/40 transition"
+>
 
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 flex items-center justify-center mb-6 shadow-lg">
+{/* icon */}
 
-                    <Icon size={24} />
+<div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-500/20 to-cyan-400/20 text-cyan-400 mb-6">
 
-                  </div>
+<Icon size={26}/>
 
-                  {/* title */}
+</div>
 
-                  <h3 className="text-xl font-semibold mb-3">
+{/* title */}
 
-                    {feature.title}
+<h3 className="text-xl font-semibold mb-3">
 
-                  </h3>
+{feature.title}
 
-                  {/* description */}
+</h3>
 
-                  <p className="text-gray-400 text-sm leading-relaxed">
+{/* desc */}
 
-                    {feature.description}
+<p className="text-gray-400 leading-relaxed">
 
-                  </p>
+{feature.desc}
 
-                </div>
+</p>
 
-              </motion.div>
-            )
-          })}
+</motion.div>
 
-        </div>
+)
 
-      </div>
+})}
 
-    </section>
-  )
+</div>
+
+</div>
+
+</section>
+
+)
+
 }

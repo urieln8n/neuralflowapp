@@ -3,72 +3,39 @@
 import Link from "next/link"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-
   return (
-    <div style={{
-      display: "flex",
-      minHeight: "100vh",
-      background: "#0b0b0f",
-      color: "white"
-    }}>
+    <div className="flex min-h-screen bg-[#0b0b0f] text-white">
 
       {/* SIDEBAR */}
+      <aside className="w-60 bg-[#111118] p-8 border-r border-[#1f1f28] flex flex-col">
+        <h2 className="text-xl mb-10 font-bold">NeuralFlow</h2>
 
-      <aside style={{
-        width: "240px",
-        background: "#111118",
-        padding: "30px 20px",
-        borderRight: "1px solid #1f1f28"
-      }}>
-
-        <h2 style={{
-          fontSize: "20px",
-          marginBottom: "40px"
-        }}>
-          NeuralFlow
-        </h2>
-
-        <nav style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "14px"
-        }}>
-
-          <Link style={link} href="/dashboard">Dashboard</Link>
-
-          <Link style={link} href="/dashboard/leads">Leads</Link>
-
-          <Link style={link} href="/dashboard/automations">Automations</Link>
-
-          <Link style={link} href="/dashboard/bots">AI Bots</Link>
-
-          <Link style={link} href="/dashboard/analytics">Analytics</Link>
-
-          <Link style={link} href="/dashboard/settings">Settings</Link>
-
+        <nav className="flex flex-col gap-3">
+          <NavLink href="/dashboard">Dashboard</NavLink>
+          <NavLink href="/dashboard/leads">Leads</NavLink>
+          <NavLink href="/dashboard/automations">Automations</NavLink>
+          <NavLink href="/dashboard/bots">AI Bots</NavLink>
+          <NavLink href="/dashboard/analytics">Analytics</NavLink>
+          <NavLink href="/dashboard/settings">Settings</NavLink>
         </nav>
-
       </aside>
 
       {/* CONTENT */}
-
-      <main style={{
-        flex: 1,
-        padding: "40px"
-      }}>
-
+      <main className="flex-1 p-10">
         {children}
-
       </main>
-
     </div>
   )
 }
 
-const link = {
-  color: "white",
-  textDecoration: "none",
-  padding: "10px 14px",
-  borderRadius: "8px",
-  background: "#1a1a22"
+// Componente auxiliar para links con hover
+function NavLink({ href, children }: { href: string, children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="text-white px-4 py-2 rounded-lg bg-[#1a1a22] hover:bg-gray-700 transition-colors"
+    >
+      {children}
+    </Link>
+  )
 }

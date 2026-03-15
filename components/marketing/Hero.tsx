@@ -1,223 +1,117 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Particles from "@/components/ui/Particles"
+import { Sparkles, Rocket, Bot, ArrowRight, Zap } from "lucide-react"
 
-export default function Hero() {
-
+export default function HeroSection() {
   return (
+    <section className="relative overflow-hidden bg-black text-white py-28 px-6 lg:px-24">
 
-    <section className="relative overflow-hidden bg-black text-white">
+      {/* Fondo glow radial */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_30%_20%,rgba(56,189,248,0.15),transparent_40%),radial-gradient(circle_at_80%_60%,rgba(168,85,247,0.15),transparent_40%)]"/>
 
-      {/* AI PARTICLES BACKGROUND */}
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
 
-      <Particles />
-
-      {/* glow backgrounds */}
-
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-600/30 blur-[150px] rounded-full"></div>
-
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-500/30 blur-[150px] rounded-full"></div>
-
-      {/* MAIN CONTAINER */}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40 pb-32 grid md:grid-cols-2 gap-16 items-center">
-
-        {/* LEFT SIDE */}
-
-        <div>
-
-          {/* badge */}
-
-          <motion.div
-            initial={{opacity:0,y:20}}
-            animate={{opacity:1,y:0}}
-            transition={{duration:0.6}}
-            className="inline-block px-4 py-1 mb-6 rounded-full bg-purple-600/30 text-sm text-purple-200"
-          >
-            AI Automation Platform
-          </motion.div>
-
-
-          {/* title */}
-
-          <motion.h1
-            initial={{opacity:0,y:40}}
-            animate={{opacity:1,y:0}}
-            transition={{duration:0.8}}
-            className="text-5xl md:text-6xl font-bold leading-tight"
-          >
-
-            Automate your <br />
-
-            business with
-
-            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-
-              {" "}NeuralFlow AI
-
-            </span>
-
-          </motion.h1>
-
-
-          {/* description */}
-
-          <motion.p
-            initial={{opacity:0,y:40}}
-            animate={{opacity:1,y:0}}
-            transition={{delay:0.2,duration:0.8}}
-            className="text-gray-400 mt-6 max-w-xl"
-          >
-
-            NeuralFlow builds intelligent AI automations that scale your business.
-            Connect workflows, deploy AI agents and manage everything from a
-            single dashboard.
-
-          </motion.p>
-
-
-          {/* buttons */}
-
-          <motion.div
-            initial={{opacity:0,y:40}}
-            animate={{opacity:1,y:0}}
-            transition={{delay:0.3,duration:0.8}}
-            className="flex gap-4 mt-8"
-          >
-
-            <button className="px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-purple-500 to-cyan-500 hover:scale-105 transition">
-
-              Start Free
-
-            </button>
-
-            <button className="px-6 py-3 rounded-xl border border-white/20 hover:border-cyan-400 transition">
-
-              View Automations
-
-            </button>
-
-          </motion.div>
-
-
-          {/* stats */}
-
-          <motion.div
-            initial={{opacity:0}}
-            animate={{opacity:1}}
-            transition={{delay:0.6}}
-            className="flex gap-10 mt-10 text-sm text-gray-400"
-          >
-
-            <div>
-              <p className="text-2xl text-white font-bold">500+</p>
-              AI Workflows
-            </div>
-
-            <div>
-              <p className="text-2xl text-white font-bold">10k+</p>
-              Automations
-            </div>
-
-            <div>
-              <p className="text-2xl text-white font-bold">99.9%</p>
-              Uptime
-            </div>
-
-          </motion.div>
-
-        </div>
-
-        {/* RIGHT SIDE DASHBOARD */}
-
+        {/* TEXTO HERO */}
         <motion.div
-
-          initial={{opacity:0,scale:0.9}}
-          animate={{opacity:1,scale:1}}
-          transition={{duration:0.8}}
-
-          whileHover={{scale:1.02}}
-
-          className="relative"
-
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
 
-          {/* glow border */}
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-xs font-semibold bg-white/5 border border-white/10 rounded-full backdrop-blur">
+            <Sparkles size={14} className="text-cyan-400"/>
+            AI Automation Platform
+          </div>
 
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500 via-cyan-500 to-blue-500 blur-xl opacity-40"></div>
+          {/* Headline */}
+          <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+            Lanza tu negocio con  
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500">
+              Automatización con IA
+            </span>
+          </h1>
 
-          {/* floating animation */}
+          {/* Subheadline */}
+          <p className="text-gray-400 text-lg mb-10 max-w-lg">
+            Sistemas inteligentes que capturan leads, automatizan ventas, responden clientes y ejecutan procesos 24/7 para escalar tu negocio.
+          </p>
 
-          <motion.div
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center justify-center gap-2 px-7 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold hover:opacity-90 transition"
+            >
+              <Rocket size={18}/> Lanzar MVP
+            </motion.button>
 
-            animate={{y:[0,-12,0]}}
-            transition={{duration:4,repeat:Infinity}}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center justify-center gap-2 px-7 py-4 border border-white/10 rounded-xl hover:bg-white/5 transition"
+            >
+              Ver Demo <ArrowRight size={16}/>
+            </motion.button>
+          </div>
 
-            className="relative bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-
-          >
-
-            <div className="flex justify-between mb-4">
-
-              <p className="text-sm text-gray-400">AI Automations</p>
-
-              <span className="text-green-400 text-xs">Active</span>
-
-            </div>
-
-            {/* automation cards */}
-
-            <div className="space-y-4">
-
-              <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-
-                <p className="font-semibold">Lead Generation AI</p>
-
-                <p className="text-sm text-gray-400">
-
-                  Collects and processes leads automatically
-
-                </p>
-
-              </div>
-
-
-              <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-
-                <p className="font-semibold">Customer Support Agent</p>
-
-                <p className="text-sm text-gray-400">
-
-                  AI chatbot answering support tickets
-
-                </p>
-
-              </div>
-
-
-              <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-
-                <p className="font-semibold">Marketing Automation</p>
-
-                <p className="text-sm text-gray-400">
-
-                  AI campaigns and email workflows
-
-                </p>
-
-              </div>
-
-            </div>
-
-          </motion.div>
+          {/* Social proof */}
+          <div className="flex gap-8 mt-10 text-sm text-gray-500">
+            <Stat label="+120" desc="startups lanzadas"/>
+            <Stat label="48h" desc="tiempo promedio MVP"/>
+            <Stat label="24/7" desc="automatización IA"/>
+          </div>
 
         </motion.div>
 
+        {/* PANEL VISUAL / PRODUCTO */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9 }}
+          className="relative"
+        >
+          <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-2xl">
+            <h3 className="text-lg font-semibold mb-6">AI Automation Stack</h3>
+            <div className="space-y-5">
+              <FeatureItem icon={<Bot size={18}/>} title="ChatWidget IA" desc="Responde clientes automáticamente"/>
+              <FeatureItem icon={<Sparkles size={18}/>} title="Asistente WhatsApp" desc="Conversaciones automatizadas"/>
+              <FeatureItem icon={<Rocket size={18}/>} title="Landing optimizada" desc="Lista para captar clientes"/>
+              <FeatureItem icon={<ArrowRight size={18}/>} title="CRM básico" desc="Gestión de leads automática"/>
+              <FeatureItem icon={<Zap size={18}/>} title="Automatizaciones" desc="Flujos de trabajo inteligentes y rápidos"/>
+            </div>
+          </div>
+        </motion.div>
+
       </div>
-
     </section>
-
   )
+}
 
+function FeatureItem({icon, title, desc}: {icon: any, title: string, desc: string}) {
+  return (
+    <motion.div
+      whileHover={{ x: 5 }}
+      className="flex items-start gap-4"
+    >
+      <div className="p-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400">
+        {icon}
+      </div>
+      <div>
+        <p className="font-semibold">{title}</p>
+        <p className="text-sm text-gray-400">{desc}</p>
+      </div>
+    </motion.div>
+  )
+}
+
+function Stat({label, desc}: {label: string, desc: string}) {
+  return (
+    <div className="text-center">
+      <p className="text-xl font-bold text-white">{label}</p>
+      <p className="text-gray-400 text-sm">{desc}</p>
+    </div>
+  )
 }

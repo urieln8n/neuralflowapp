@@ -1,118 +1,145 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Brain, Bot, Rocket } from "lucide-react"
+
+export default function HowItWorks(){
 
 const steps = [
-  {
-    number: "01",
-    title: "Connect",
-    description:
-      "Integrate your tools, APIs, and data sources in seconds using NeuralFlow’s intelligent connectors.",
-  },
-  {
-    number: "02",
-    title: "Automate",
-    description:
-      "Our AI analyzes your workflows and automatically builds optimized automation pipelines.",
-  },
-  {
-    number: "03",
-    title: "Scale",
-    description:
-      "Deploy AI agents that continuously optimize operations and scale your business faster.",
-  },
+
+{
+icon:Brain,
+title:"Creamos tu landing inteligente",
+desc:"Diseñamos una landing optimizada para captar clientes con IA integrada y experiencia moderna."
+},
+
+{
+icon:Bot,
+title:"Activamos los agentes IA",
+desc:"Integramos Chat Agent y WhatsApp Agent para responder automáticamente a tus clientes 24/7."
+},
+
+{
+icon:Rocket,
+title:"Empiezas a recibir leads",
+desc:"Los visitantes hablan con tu asistente IA y se convierten automáticamente en leads dentro de tu CRM."
+}
+
 ]
 
-export default function HowItWorks() {
-  return (
-    <section className="relative py-32 bg-black text-white overflow-hidden">
+return(
 
-      {/* background glow */}
+<section className="relative bg-[#0b0b0f] text-white py-32 px-6 overflow-hidden">
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-purple-600/20 blur-[180px] rounded-full"></div>
+{/* fondo glow */}
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-600/20 blur-[200px] pointer-events-none"/>
 
-        {/* title */}
+<div className="max-w-7xl mx-auto relative">
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="text-center mb-24"
-        >
+{/* HEADER */}
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            How It Works
-          </h2>
+<div className="text-center mb-24">
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Our AI platform automates your workflows, analyzes data,
-            and helps your business grow faster.
-          </p>
+<h2 className="text-5xl font-bold mb-6">
 
-        </motion.div>
+Cómo funciona  
+<span className="bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text ml-2">
+NeuralFlow
+</span>
 
-        {/* steps */}
+</h2>
 
-        <div className="grid md:grid-cols-3 gap-10">
+<p className="text-gray-400 text-lg max-w-2xl mx-auto">
 
-          {steps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2 }}
-              viewport={{ once: true }}
+Un sistema automatizado que convierte visitantes en clientes usando inteligencia artificial.
 
-              whileHover={{
-                y: -10,
-                scale: 1.03,
-              }}
+</p>
 
-              className="relative group rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-10 transition-all duration-300"
-            >
+</div>
 
-              {/* hover glow */}
 
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-purple-600/20 to-cyan-500/20 blur-xl"></div>
+{/* STEPS */}
 
-              <div className="relative z-10">
+<div className="grid md:grid-cols-3 gap-10 relative">
 
-                {/* number */}
+{steps.map((step,i)=>{
 
-                <div className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+const Icon = step.icon
 
-                  {step.number}
+return(
 
-                </div>
+<motion.div
+key={i}
+initial={{opacity:0,y:40}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+transition={{delay:i*0.2}}
+className="relative bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-10 hover:border-purple-400/40 transition"
+>
 
-                {/* title */}
+{/* icon */}
 
-                <h3 className="text-2xl font-semibold mb-4">
+<div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-500/20 to-cyan-400/20 text-cyan-400 mb-6">
 
-                  {step.title}
+<Icon size={26}/>
 
-                </h3>
+</div>
 
-                {/* description */}
+{/* step number */}
 
-                <p className="text-gray-400 leading-relaxed">
+<div className="absolute top-6 right-6 text-sm text-gray-500 font-mono">
 
-                  {step.description}
+0{i+1}
 
-                </p>
+</div>
 
-              </div>
+{/* title */}
 
-            </motion.div>
-          ))}
+<h3 className="text-xl font-semibold mb-4">
 
-        </div>
+{step.title}
 
-      </div>
+</h3>
 
-    </section>
-  )
+{/* description */}
+
+<p className="text-gray-400 leading-relaxed">
+
+{step.desc}
+
+</p>
+
+</motion.div>
+
+)
+
+})}
+
+</div>
+
+
+{/* FLOW LINE */}
+
+<div className="hidden md:block absolute top-[55%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"/>
+
+
+{/* CTA */}
+
+<div className="text-center mt-24">
+
+<button className="bg-gradient-to-r from-purple-500 to-cyan-400 px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition">
+
+Crear mi sistema con IA
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+)
+
 }
