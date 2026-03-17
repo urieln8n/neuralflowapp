@@ -28,7 +28,7 @@ export default function HeroSection() {
           {/* Headline */}
           <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
             Lanza tu negocio con  
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500">
+            <span className="block text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-blue-400 to-purple-500">
               Automatización con IA
             </span>
           </h1>
@@ -43,7 +43,7 @@ export default function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center gap-2 px-7 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold hover:opacity-90 transition"
+              className="flex items-center justify-center gap-2 px-7 py-4 bg-linear-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold hover:opacity-90 transition"
             >
               <Rocket size={18}/> Lanzar MVP
             </motion.button>
@@ -96,7 +96,7 @@ function FeatureItem({icon, title, desc}: {icon: any, title: string, desc: strin
       whileHover={{ x: 5 }}
       className="flex items-start gap-4"
     >
-      <div className="p-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400">
+      <div className="p-2 rounded-lg bg-linear-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400">
         {icon}
       </div>
       <div>

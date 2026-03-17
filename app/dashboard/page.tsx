@@ -145,7 +145,7 @@ className="bg-gray-900 border border-gray-700 pl-10 pr-4 py-3 rounded-lg w-80"
 
 <button
 onClick={generateLeads}
-className="bg-gradient-to-r from-purple-500 to-cyan-400 px-6 py-3 rounded-lg font-semibold hover:opacity-90"
+className="bg-linear-to-r from-purple-500 to-cyan-400 px-6 py-3 rounded-lg font-semibold hover:opacity-90"
 >
 Generar Leads
 </button>
