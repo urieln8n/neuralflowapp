@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
 
         {/* Contenido principal */}
-        <main className="relative z-10 pt-[80px]">{children}</main>
+        <main className="relative z-10 pt-80px]">{children}</main>
 
         {/* Footer */}
         <footer className="text-gray-500 text-center py-6 mt-20 z-10 relative">
