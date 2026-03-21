@@ -1,373 +1,167 @@
-"use client"
-
-import { useState,useEffect } from "react"
-import HotLeadEmailGenerator from "@/components/ui/HotLeadEmailGenerator"
-import { Search,Mail,Phone,Globe,TrendingUp } from "lucide-react"
-
-type Lead = {
-id:number
-company:string
-industry:string
-phone:string
-email:string
-website:string
-score:number
-status:string
-}
-
-export default function LeadsPage(){
-
-const [query,setQuery] = useState("")
-const [leads,setLeads] = useState<Lead[]>([])
-const [filtered,setFiltered] = useState<Lead[]>([])
-const [loading,setLoading] = useState(false)
-const [page,setPage] = useState(1)
-
-const perPage = 20
-
-const industries = [
-"AI",
-"SaaS",
-"Marketing",
-"Fintech",
-"Ecommerce",
-"HealthTech",
-"EdTech",
-"Real Estate"
-]
-
-const statuses = [
-"Nuevo",
-"Contactado",
-"Interesado",
-"Cliente"
-]
-
-function generateLeads(){
-
-if(!query) return
-
-setLoading(true)
-
-const newLeads:Lead[] = []
-
-for(let i=1;i<=500;i++){
-
-newLeads.push({
-
-id:i,
-company:`${query} Company ${i}`,
-industry:industries[i % industries.length],
-phone:`+1 555 01${(100+i).toString().slice(-3)}`,
-email:`contact${i}@${query.toLowerCase()}company.com`,
-website:`${query.toLowerCase()}company${i}.com`,
-score:Math.floor(Math.random()*100),
-status:statuses[i % statuses.length]
-
-})
-
-}
-
-setTimeout(()=>{
-
-setLeads(newLeads)
-setFiltered(newLeads)
-setLoading(false)
-
-},700)
-
-}
-
-useEffect(()=>{
-
-setFiltered(
-
-leads.filter(l=>
-
-l.company.toLowerCase().includes(query.toLowerCase()) ||
-l.industry.toLowerCase().includes(query.toLowerCase())
-
-)
-
-)
-
-},[query,leads])
-
-const start = (page-1)*perPage
-const current = filtered.slice(start,start+perPage)
-const totalPages = Math.ceil(filtered.length/perPage)
-
-return(
-
-<div className="min-h-screen bg-[#0b0b0f] text-white p-10">
-
-<div className="max-w-7xl mx-auto">
-
-{/* HEADER */}
-
-<div className="flex items-center justify-between mb-10">
-
-<div>
-
-<h1 className="text-4xl font-bold flex items-center gap-3">
-
-<TrendingUp className="text-cyan-400"/>
-
-AI Lead Engine
-
-</h1>
-
-<p className="text-gray-400 mt-2">
-Descubre empresas de alto valor con inteligencia artificial
-</p>
-
-</div>
-
-</div>
-
-
-{/* SEARCH */}
-
-<div className="flex items-center gap-3 mb-12">
-
-<div className="relative">
-
-<Search className="absolute left-3 top-3 text-gray-500" size={18}/>
-
-<input
-value={query}
-onChange={(e)=>setQuery(e.target.value)}
-placeholder="Buscar industria o empresa..."
-className="bg-gray-900 border border-gray-700 pl-10 pr-4 py-3 rounded-lg w-80"
-/>
-
-</div>
-
-<button
-onClick={generateLeads}
-className="bg-linear-to-r from-purple-500 to-cyan-400 px-6 py-3 rounded-lg font-semibold hover:opacity-90"
->
-Generar Leads
-</button>
-
-</div>
-
-
-{/* METRICS */}
-
-<div className="grid md:grid-cols-4 gap-6 mb-12">
-
-<Metric title="Total Leads" value={leads.length}/>
-
-<Metric
-title="Leads Calientes"
-value={leads.filter(l=>l.score>70).length}
-/>
-
-<Metric
-title="Contactados"
-value={leads.filter(l=>l.status==="Contactado").length}
-/>
-
-<Metric
-title="Clientes"
-value={leads.filter(l=>l.status==="Cliente").length}
-/>
-
-</div>
-
-
-{/* LOADING */}
-
-{loading && (
-
-<div className="text-gray-400 mb-6">
-La IA está descubriendo empresas...
-</div>
-
-)}
-
-
-{/* TABLE */}
-
-<div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-
-<table className="w-full text-sm">
-
-<thead className="bg-gray-800 text-gray-300">
-
-<tr>
-
-<th className="p-4 text-left">Empresa</th>
-<th className="p-4 text-left">Industria</th>
-<th className="p-4 text-left">Contacto</th>
-<th className="p-4 text-left">Web</th>
-<th className="p-4 text-left">Score</th>
-<th className="p-4 text-left">Estado</th>
-<th className="p-4"></th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{current.map((lead)=>(
-
-<tr
-key={lead.id}
-className="border-t border-gray-800 hover:bg-gray-800 transition"
->
-
-<td className="p-4 font-semibold">
-
-{lead.company}
-
-</td>
-
-<td className="p-4 text-gray-400">
-
-{lead.industry}
-
-</td>
-
-<td className="p-4">
-
-<div className="flex flex-col text-sm">
-
-<span className="flex items-center gap-2">
-<Mail size={14}/> {lead.email}
-</span>
-
-<span className="flex items-center gap-2 text-gray-400">
-<Phone size={14}/> {lead.phone}
-</span>
-
-</div>
-
-</td>
-
-<td className="p-4 text-cyan-400 flex items-center gap-2">
-
-<Globe size={14}/>
-
-{lead.website}
-
-</td>
-
-<td className="p-4">
-
-<span className={`px-2 py-1 rounded text-xs font-semibold
-
-${lead.score>70
-? "bg-green-600"
-: lead.score>40
-? "bg-yellow-500 text-black"
-: "bg-gray-700"}
-
-`}>
-
-{lead.score}
-
-</span>
-
-</td>
-
-<td className="p-4">
-
-<span className={`text-xs px-3 py-1 rounded-full
-
-${lead.status==="Cliente"
-? "bg-green-500/20 text-green-400"
-: lead.status==="Interesado"
-? "bg-yellow-500/20 text-yellow-400"
-: lead.status==="Contactado"
-? "bg-blue-500/20 text-blue-400"
-: "bg-gray-600"}
-
-`}>
-
-{lead.status}
-
-</span>
-
-</td>
-
-<td className="p-4">
-
-<div className="flex gap-2">
-
-<button className="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-xs">
-Capturar
-</button>
-
-
-
-</div>
-
-</td>
-
-</tr>
-
-))}
-
-</tbody>
-
-</table>
-
-</div>
-
-
-{/* PAGINATION */}
-
-<div className="flex items-center justify-between mt-8">
-
-<button
-onClick={()=>setPage(p=>Math.max(1,p-1))}
-className="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700"
->
-Anterior
-</button>
-
-<span className="text-gray-400">
-
-Página {page} de {totalPages}
-
-</span>
-
-<button
-onClick={()=>setPage(p=>Math.min(totalPages,p+1))}
-className="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700"
->
-Siguiente
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-)
-
-}
-
-function Metric({title,value}:{title:string,value:number}){
-
-return(
-
-<div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
-
-<p className="text-gray-400 text-sm">
-{title}
-</p>
-
-<p className="text-3xl font-bold mt-2">
-{value}
-</p>
-
-</div>
-
-)
-
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { 
+  Zap, 
+  CheckCircle2, 
+  Lock, 
+  ArrowRight, 
+  BarChart3, 
+  PlayCircle,
+  Trophy,
+  Video,
+  Star
+} from "lucide-react";
+
+export default function Dashboard() {
+  const router = useRouter();
+  const [progress, setProgress] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState({
+    day1: false,
+    day2: false,
+    day3: false
+  });
+
+  useEffect(() => {
+    // Verificación de estados en LocalStorage
+    const d1 = localStorage.getItem("day-1_completed") === "true";
+    const d2 = localStorage.getItem("day-2_completed") === "true";
+    const d3 = localStorage.getItem("day-3_completed") === "true";
+    
+    setCompletedSteps({ day1: d1, day2: d2, day3: d3 });
+    
+    // Cálculo de progreso (33.3% por cada día)
+    let total = 0;
+    if (d1) total += 33.3;
+    if (d2) total += 33.3;
+    if (d3) total += 33.4; // Ajuste para llegar al 100%
+    setProgress(Math.round(total));
+  }, []);
+
+  const misiones = [
+    { 
+      id: "day-1", 
+      titulo: "Bóveda e IA Viral", 
+      icon: <PlayCircle className="text-cyan-400" size={32} />,
+      color: "from-cyan-500/20 to-blue-500/5",
+      locked: false,
+      done: completedSteps.day1
+    },
+    { 
+      id: "day-2", 
+      titulo: "Guion Magnético", 
+      icon: <BarChart3 className="text-purple-400" size={32} />,
+      color: "from-purple-500/20 to-pink-500/5",
+      locked: !completedSteps.day1,
+      done: completedSteps.day2
+    },
+    { 
+      id: "day-3", 
+      titulo: "Edición y Lanzamiento", 
+      icon: <Video className="text-emerald-400" size={32} />,
+      color: "from-emerald-500/20 to-teal-500/5",
+      locked: !completedSteps.day2,
+      done: completedSteps.day3
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#020202] text-white font-sans selection:bg-cyan-500/30">
+      
+      {/* NAVBAR */}
+      <nav className="p-8 border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <Zap size={20} fill="white" />
+            </div>
+            <span className="text-2xl font-black uppercase italic tracking-tighter">
+              Neural<span className="text-cyan-400">Flow</span>
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+             <Trophy size={20} className={progress === 100 ? "text-yellow-500 animate-bounce" : "text-gray-700"} />
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto p-8 lg:p-20">
+        
+        {/* BARRA DE PROGRESO */}
+        <section className="mb-20 text-center md:text-left">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+            <div>
+              <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter mb-2">Misiones</h1>
+              <p className="text-gray-500 font-bold uppercase tracking-[0.4em] text-[10px]">Estatus de entrenamiento: <span className="text-white">{progress}% Completado</span></p>
+            </div>
+            {progress === 100 && (
+              <div className="animate-in slide-in-from-right-10 px-6 py-3 bg-yellow-500/10 border border-yellow-500/50 rounded-2xl flex items-center gap-3">
+                <Star className="text-yellow-500" fill="currentColor" size={20} />
+                <span className="text-yellow-500 font-black uppercase italic text-sm tracking-widest">Certificado Disponible</span>
+              </div>
+            )}
+          </div>
+          <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-emerald-500 transition-all duration-1000 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </section>
+
+        {/* GRID DE MISIONES (3 COLUMNAS) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {misiones.map((m) => (
+            <div 
+              key={m.id}
+              className={`relative p-8 rounded-[3rem] border transition-all duration-500 flex flex-col justify-between h-[450px] ${
+                m.locked 
+                ? "bg-black border-white/5 opacity-40" 
+                : `bg-gradient-to-br ${m.color} border-white/10 hover:border-white/30 hover:scale-[1.02]`
+              }`}
+            >
+              <div>
+                <div className="flex justify-between items-start mb-12">
+                  <div className="p-4 bg-black/50 rounded-2xl border border-white/5">
+                    {m.done ? <CheckCircle2 className="text-green-400" size={28} /> : m.icon}
+                  </div>
+                  {m.locked && <Lock size={18} className="text-gray-700" />}
+                </div>
+                <h3 className="text-3xl font-black uppercase italic tracking-tighter mb-4 leading-none">
+                  {m.titulo}
+                </h3>
+              </div>
+
+              <button 
+                disabled={m.locked}
+                onClick={() => router.push(`/mision/${m.id}`)}
+                className={`w-full py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 ${
+                  m.locked 
+                  ? "bg-white/5 text-gray-700" 
+                  : "bg-white text-black hover:bg-cyan-500 hover:text-white"
+                }`}
+              >
+                {m.locked ? "Fase Bloqueada" : m.done ? "Repetir" : "Iniciar"} 
+                {!m.locked && <ArrowRight size={14} />}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* ESTADO FINAL: CERTIFICADO */}
+        {progress === 100 && (
+          <div className="mt-20 p-1 bg-gradient-to-r from-yellow-500 via-white to-yellow-500 rounded-[4rem] animate-pulse">
+            <div className="bg-black rounded-[3.9rem] p-16 text-center">
+              <Trophy size={80} className="text-yellow-500 mx-auto mb-8" />
+              <h2 className="text-5xl font-black italic uppercase mb-4 tracking-tighter">¡Entrenamiento <span className="text-yellow-500">Completado!</span></h2>
+              <p className="text-gray-500 font-bold uppercase tracking-[0.3em] text-xs mb-10">Has dominado el sistema NeuralFlow Enterprise V3.0</p>
+              <button className="px-12 py-6 bg-yellow-500 text-black font-black uppercase tracking-widest rounded-2xl hover:scale-110 transition-transform">
+                Descargar Certificado
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
 }

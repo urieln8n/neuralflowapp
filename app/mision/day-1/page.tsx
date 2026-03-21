@@ -1,190 +1,143 @@
 "use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, Sparkles, Search, CheckCircle2, Copy, Play } from "lucide-react";
 
-import { useState, useEffect } from "react";
-import { Loader2, Zap, CheckCircle, Flame, Crown, CheckCircle2 } from "lucide-react";
-import VideoCard from "@/components/ui/VideoCard";
+export default function MisionDay1() {
+  const [step, setStep] = useState(1);
+  const [nicho, setNicho] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const router = useRouter();
 
-// --- COMPONENTE: EL MODAL DE PAGO (PAYWALL) ---
-function PaywallModal() {
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-500">
-      <div className="bg-[#0A0A0A] border border-red-500/30 w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-[0_0_80px_rgba(220,38,38,0.25)]">
-        <div className="bg-gradient-to-b from-red-600/20 to-transparent p-10 text-center">
-          <div className="bg-red-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-600/40 rotate-6">
-            <Crown className="text-white w-8 h-8" />
-          </div>
-          <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">
-            Neural<span className="text-red-600">Flow</span> Pro
-          </h2>
-          <p className="text-gray-400 text-sm mt-3">Misiones gratuitas agotadas.</p>
-        </div>
-        <div className="p-10 pt-0 space-y-4">
-          <div className="flex items-center gap-3 text-gray-300">
-            <CheckCircle2 className="text-red-500 w-5 h-5" /> <span>IA Ilimitada</span>
-          </div>
-          <button className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-5 rounded-2xl transition-all active:scale-95 mt-6 shadow-xl shadow-red-600/20 flex items-center justify-center gap-2">
-            <Zap size={20} fill="white" /> DESBLOQUEAR AHORA
+    <div className="min-h-screen bg-[#050505] text-white font-sans">
+      {/* HEADER ESTATICO */}
+      <nav className="p-6 border-b border-white/5 bg-black/80 sticky top-0 z-50 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <span className="font-black uppercase italic text-xl tracking-tighter">
+            NeuralFlow <span className="text-cyan-400">Misión 01</span>
+          </span>
+          <button onClick={() => router.push('/dashboard')} className="text-[10px] font-black uppercase text-gray-500 hover:text-white transition-colors tracking-widest">
+            Volver al Panel
           </button>
         </div>
-      </div>
-    </div>
-  );
-}
+      </nav>
 
-// --- PÁGINA PRINCIPAL ---
-export default function MissionDayOne() {
-  // 1. Tipamos el estado como any[] para evitar el error de setVideos
-  const [step, setStep] = useState<number>(1);
-  const [videos, setVideos] = useState<any[]>([]); 
-  const [niche, setNiche] = useState<string>("");
-  const [aiHooks, setAiHooks] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [showPaywall, setShowPaywall] = useState<boolean>(false);
-
-  // 2. useEffect corregido con validación estricta
-  useEffect(() => {
-    const fetchInspiration = async () => {
-      try {
-        const res = await fetch("/api/youtube?q=viral hooks marketing");
-        const data = await res.json();
+      <main className="max-w-6xl mx-auto p-8 lg:p-16">
         
-        // Aquí forzamos el reconocimiento del array para limpiar la línea 52
-        if (Array.isArray(data)) {
-          setVideos(data as any[]);
-        } else {
-          setVideos([]);
-        }
-      } catch (e) {
-        console.error("Error en fetchInspiration:", e);
-        setVideos([]);
-      }
-    };
-    fetchInspiration();
-  }, []);
-
-  const handleAiGeneration = async () => {
-    if (!niche.trim()) return alert("Por favor, escribe tu nicho");
-    
-    setLoading(true);
-    try {
-      const res = await fetch("/api/ai/hooks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ niche }),
-      });
-
-      const data = await res.json();
-
-      if (res.status === 402 || data.isPaywall) {
-        setShowPaywall(true);
-        return;
-      }
-
-      setAiHooks(data.hooks || "");
-      setStep(3);
-    } catch (err) {
-      console.error("Error en IA:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col lg:flex-row font-sans">
-      
-      {showPaywall && <PaywallModal />}
-
-      <aside className="w-full lg:w-80 border-r border-white/5 p-8 bg-black/50">
-        <div className="flex items-center gap-3 mb-12">
-          <Flame className="text-red-600 w-8 h-8" />
-          <h2 className="text-xl font-black italic tracking-tighter">NEURAL<span className="text-red-600">FLOW</span></h2>
-        </div>
-        
-        <nav className="space-y-8">
-          <StepIndicator num={1} title="Inspiración" active={step === 1} done={step > 1} />
-          <StepIndicator num={2} title="IA Viral Hooks" active={step === 2} done={step > 2} />
-          <StepIndicator num={3} title="Resultado" active={step === 3} done={step > 3} />
-        </nav>
-      </aside>
-
-      <main className="flex-1 p-6 lg:p-16 overflow-y-auto">
+        {/* ETAPA 1: BÓVEDA DE INSPIRACIÓN */}
         {step === 1 && (
-          <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4">
-            <h1 className="text-5xl font-black mb-4 tracking-tighter italic uppercase">Día 1: Inspiración</h1>
-            <p className="text-gray-500 mb-12 text-lg font-medium tracking-tight text-balance">Estudia los mejores videos antes de crear.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {videos.length > 0 ? (
-                videos.map((v: any) => (
-                  <VideoCard key={v.id?.videoId || Math.random()} video={v} />
-                ))
-              ) : (
-                <div className="col-span-full h-64 bg-white/5 rounded-3xl animate-pulse flex items-center justify-center text-gray-500">
-                  Cargando Laboratorio Viral...
+          <div className="animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <h1 className="text-7xl font-black italic uppercase tracking-tighter mb-4 leading-none">
+              Bóveda de <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Inspiración</span>
+            </h1>
+            <p className="text-gray-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-12">Analiza los patrones de mayor retención del mercado.</p>
+
+            <div className="relative mb-12 group">
+              <input type="text" placeholder="Buscar nicho (Belleza, Finanzas, IA...)" className="w-full bg-white/5 border border-white/10 p-6 rounded-2xl text-xl focus:border-cyan-400 outline-none pl-16 transition-all" />
+              <Search className="absolute left-6 top-7 text-gray-500 group-focus-within:text-cyan-400" size={24} />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="aspect-[9/16] bg-black rounded-[2.5rem] border border-white/5 overflow-hidden relative group hover:border-cyan-500/50 transition-all shadow-2xl">
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/5 group-hover:bg-transparent transition-colors">
+                    <Play size={48} className="text-cyan-400 opacity-50 group-hover:opacity-100" />
+                  </div>
+                  <iframe className="w-full h-full opacity-40 group-hover:opacity-100" src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&autoplay=0" title={`Viral ${i}`} />
+                  <div className="absolute bottom-8 left-8">
+                    <p className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Patrón Viral {i}</p>
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
+
             <button 
-              onClick={() => setStep(2)}
-              className="mt-12 bg-white text-black px-10 py-4 rounded-2xl font-black hover:bg-red-600 hover:text-white transition-all active:scale-95"
+              onClick={() => { setStep(2); window.scrollTo(0,0); }}
+              className="w-full py-8 bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 text-white font-black uppercase tracking-[0.2em] rounded-[2.5rem] hover:scale-[1.01] transition-all flex items-center justify-center gap-4 text-xl shadow-[0_20px_40px_rgba(6,182,212,0.2)]"
             >
-              SIGUIENTE PASO: USAR IA
+              SIGUIENTE PASO: USAR IA <ArrowRight size={24} />
             </button>
           </div>
         )}
 
+        {/* ETAPA 2: MOTOR DE IA (HOOTS/HOOKS) */}
         {step === 2 && (
-          <div className="max-w-xl mx-auto py-20 text-center animate-in zoom-in duration-500">
-            <div className="inline-block p-4 bg-red-600/20 rounded-3xl mb-6 shadow-[0_0_20px_rgba(220,38,38,0.2)]">
-              <Zap className="text-red-500 w-10 h-10" fill="currentColor" />
+          <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center py-10">
+            <div className="w-24 h-24 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-3xl flex items-center justify-center mb-10 shadow-[0_0_50px_rgba(6,182,212,0.3)]">
+              <Sparkles size={48} className="text-white" />
             </div>
-            <h1 className="text-4xl font-black mb-4 tracking-tight uppercase">Define tu Nicho</h1>
+            <h2 className="text-5xl font-black italic uppercase mb-4 text-center tracking-tighter">Define tu <span className="text-cyan-400">Nicho</span></h2>
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mb-12">La IA generará ganchos específicos para tu audiencia.</p>
+            
             <input 
-              value={niche}
-              onChange={(e) => setNiche(e.target.value)}
-              placeholder="Ej: Finanzas Personales..."
-              className="w-full bg-[#111] border border-white/10 p-6 rounded-2xl mb-6 text-center text-xl focus:border-red-600 outline-none transition-all"
+              className="w-full max-w-xl bg-white/5 border border-white/10 p-10 rounded-[2.5rem] text-3xl text-center font-black uppercase focus:border-cyan-500 outline-none mb-8 transition-all shadow-inner"
+              placeholder="Ej: Belleza..."
+              value={nicho}
+              onChange={(e) => setNicho(e.target.value)}
             />
+            
             <button 
-              onClick={handleAiGeneration}
-              disabled={loading}
-              className="w-full bg-red-600 py-5 rounded-2xl font-black text-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+              onClick={() => {
+                setIsGenerating(true);
+                setTimeout(() => { setIsGenerating(false); setStep(3); window.scrollTo(0,0); }, 2500);
+              }}
+              disabled={!nicho || isGenerating}
+              className={`w-full max-w-xl py-8 rounded-[2rem] font-black uppercase tracking-widest text-xl transition-all shadow-2xl ${
+                isGenerating ? "bg-white/5 text-gray-600 animate-pulse cursor-wait" : "bg-white text-black hover:bg-cyan-500 hover:text-white"
+              }`}
             >
-              {loading ? <Loader2 className="animate-spin" /> : "GENERAR CON IA PREMIUM"}
+              {isGenerating ? "ENTRENANDO ALGORITMO..." : "GENERAR GANCHOS VIRALES"}
             </button>
           </div>
         )}
 
+        {/* ETAPA 3: RESULTADOS (HOOKS SUGERIDOS) */}
         {step === 3 && (
-          <div className="max-w-2xl mx-auto animate-in fade-in zoom-in duration-500">
-            <div className="bg-green-500/10 border border-green-500/30 p-6 rounded-3xl mb-8 flex items-center gap-4">
-              <CheckCircle className="text-green-500 w-6 h-6" />
-              <p className="font-bold text-green-500 uppercase tracking-widest text-sm">Misión completada</p>
+          <div className="animate-in fade-in slide-in-from-right-10 duration-700">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <p className="text-cyan-400 font-black uppercase tracking-[0.3em] text-[10px] mb-2">Análisis Finalizado</p>
+                <h2 className="text-6xl font-black uppercase italic tracking-tighter leading-none">Hooks <span className="text-white/20">Sugeridos</span></h2>
+              </div>
             </div>
-            <div className="bg-[#0A0A0A] p-10 rounded-[2.5rem] border border-white/5 shadow-2xl">
-              <h2 className="text-xs font-black text-red-500 uppercase tracking-[0.2em] mb-6">Hooks Sugeridos</h2>
-              <p className="text-2xl text-gray-200 leading-relaxed font-medium whitespace-pre-line italic">
-                {aiHooks}
+
+            <div className="bg-[#0A0A0A] border border-white/5 p-12 rounded-[3.5rem] mb-12 space-y-6 shadow-inner relative overflow-hidden">
+              <div className="absolute -top-10 -right-10 text-9xl font-black italic text-white/[0.02] uppercase pointer-events-none tracking-tighter">
+                {nicho || "Viral"}
+              </div>
+              
+              <p className="text-gray-500 font-bold italic mb-6 uppercase text-[10px] tracking-widest relative z-10">
+                Copia estos ganchos para tus videos de {nicho}:
               </p>
+
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="group p-8 bg-white/[0.02] border border-white/5 rounded-3xl flex justify-between items-center hover:border-cyan-500/30 transition-all relative z-10">
+                  <p className="text-2xl font-bold italic pr-8">
+                    {i === 1 ? `¿Sabías que el 90% en ${nicho} falla por este error?` : 
+                     i === 2 ? `¡STOP! Antes de gastar dinero en ${nicho}, mira esto.` : 
+                     `El secreto de 3 segundos para dominar ${nicho}.`}
+                  </p>
+                  <button className="p-4 bg-white/5 rounded-2xl hover:bg-cyan-500 hover:text-black transition-all">
+                    <Copy size={24} />
+                  </button>
+                </div>
+              ))}
             </div>
-            <button onClick={() => window.location.reload()} className="mt-8 text-gray-600 hover:text-white text-xs font-bold uppercase tracking-widest">Reiniciar</button>
+
+            <button 
+              onClick={() => {
+                localStorage.setItem("day-1_completed", "true");
+                router.push('/dashboard');
+              }} 
+              className="w-full py-10 bg-gradient-to-r from-green-500 to-emerald-600 text-black font-black uppercase tracking-[0.4em] rounded-[2.5rem] shadow-2xl flex items-center justify-center gap-4 text-2xl hover:scale-[1.02] transition-all"
+            >
+              FINALIZAR DÍA 1 <CheckCircle2 size={32} />
+            </button>
           </div>
         )}
-      </main>
-    </div>
-  );
-}
 
-// --- COMPONENTE AUXILIAR PARA PASOS ---
-function StepIndicator({ num, title, active, done }: { num: number; title: string; active: boolean; done: boolean }) {
-  return (
-    <div className={`flex items-center gap-5 transition-all duration-500 ${active ? 'scale-105 opacity-100' : 'opacity-30'}`}>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black ${done ? 'bg-green-500 text-white' : active ? 'bg-red-600 text-white' : 'bg-white/10 text-gray-400'}`}>
-        {done ? "✓" : num}
-      </div>
-      <div className="flex flex-col">
-        <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Etapa</span>
-        <span className={`font-black text-xs uppercase tracking-tight ${active ? 'text-white' : 'text-gray-400'}`}>{title}</span>
-      </div>
+      </main>
     </div>
   );
 }
