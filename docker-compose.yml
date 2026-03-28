@@ -1,49 +1,4 @@
 services:
-  # =========================
-  # EL CEREBRO (Ollama)
-  # =========================
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama
-    restart: always
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-
-  # =========================
-  # AGENTES (Flowise)
-  # =========================
-  flowise:
-    image: flowiseai/flowise:latest
-    container_name: flowise_neural
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
-    volumes:
-      - flowise_data:/root/.flowise
-
-  # =========================
-  # INTERFAZ IA (OpenWebUI)
-  # =========================
-  openwebui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: openwebui
-    restart: always
-    ports:
-      - "3001:8080"
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - ollama
-
-  # =========================
-  # BASE DE DATOS (Postgres)
-  # =========================
   postgres:
     image: postgres:15-alpine
     container_name: postgres
@@ -56,30 +11,35 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - neural_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
 
-  # =========================
-  # AUTOMATIZACIÓN (n8n)
-  # =========================
-  n8n:
-    image: n8nio/n8n:latest
-    container_name: n8n
+  trust-engine:
+    build: .
+    container_name: trust_engine
     restart: always
     ports:
-      - "5678:5678"
+      - "8000:80"
     environment:
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=admin
-      - DB_TYPE=postgres
-      - DB_POSTGRESDB_HOST=postgres
-      - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=neuralflow
-      - DB_POSTGRESDB_USER=postgres
-      - DB_POSTGRESDB_PASSWORD=postgres
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/neuralflow
     depends_on:
       - postgres
+    networks:
+      - neural_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+
+networks:
+  neural_network:
+    driver: bridge
 
 volumes:
   postgres_data:
-  flowise_data:
-  ollama_data:

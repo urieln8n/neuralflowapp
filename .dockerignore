@@ -1,0 +1,13 @@
+# Datos de la Base de Datos (Nunca subir esto)
+postgres_data/
+n8n_data/
+ollama_data/
+
+# Entorno y Secretos
+.env
+__pycache__/
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

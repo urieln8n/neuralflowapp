@@ -1,0 +1,14 @@
+syntax = "proto3";
+package nflowcore.nflowcore.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "nflowcore/x/nflowcore/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "nflowcore/x/nflowcore/Params";
+  option (gogoproto.equal) = true;
+  
+}

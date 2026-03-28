@@ -1,0 +1,11 @@
+version: 1
+build:
+  main: cmd/red-nflowd
+accounts:
+  - name: alice
+    coins: [1000token, 100000000stake]
+  - name: bob
+    coins: [500token, 10000000 stake]
+validator:
+  name: alice
+  staked: 100000000stake

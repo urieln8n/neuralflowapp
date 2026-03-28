@@ -1,0 +1,17 @@
+syntax = "proto3";
+package nflowcore.nflowcore.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "nflowcore/nflowcore/v1/params.proto";
+
+option go_package = "nflowcore/x/nflowcore/types";
+
+// GenesisState defines the nflowcore module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
